@@ -8,8 +8,9 @@ class SprintBloc extends BlocBase {
   final SprintApi _api;
   SprintBloc(this._api);
 
-  late final _getAllSprints = PublishSubject<List<SprintGetModel>>();
   late final _loading = BehaviorSubject<bool>();
+  late final _getAllSprints = PublishSubject<List<SprintGetModel>>();
+  late final _getOneSprint = PublishSubject<SprintGetModel>();
 
   Stream<List<SprintGetModel>> get sprints => _getAllSprints.stream;
   Stream<bool> get loading => _loading.stream;
@@ -23,18 +24,19 @@ class SprintBloc extends BlocBase {
     _loading.sink.add(false);
   }
 
-  doGetOne() async {
+  doGetOne(id) async {
     _loading.sink.add(true);
 
-    final sprint = await _api.getOne();
-
+    final sprint = await _api.getOne(id);
+    _getOneSprint.sink.add(sprint);
 
     _loading.sink.add(false);
   }
 
   @override
   void dispose() {
-    _getAllSprints.close();
     _loading.close();
+    _getAllSprints.close();
+    _getOneSprint.close();
   }
 }

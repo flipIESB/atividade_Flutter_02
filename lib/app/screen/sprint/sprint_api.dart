@@ -20,11 +20,11 @@ class SprintApi {
     }
   }
   
-  /*Future<SprintGetModel> getOne(id) async {
+  Future<SprintGetModel> getOne(id) async {
     final response = await _client.get(Uri.parse('${Constants.API_BASE_URL}/sprint/$id'));
     if(response.statusCode >= 200 && response.statusCode < 300 ){
-      final  JSprintGetOne = json.decode(response.body); // TODO - Achar o nome do Item
-      final sprint = SprintGetModel.fromJson(JSprintGetOne); // TODO - Verificar se é assim mesmo
+      final  JSprintGetOne = json.decode(response.body);
+      final sprint = SprintGetModel.fromJson(JSprintGetOne);
 
       return sprint;
     }else {
@@ -32,7 +32,7 @@ class SprintApi {
     }
   }
 
-  Future<SprintGetModel> deleteOne(id) async {
+/*  Future<SprintGetModel> deleteOne(id) async {
     final response = await _client.delete(Uri.parse('${Constants.API_BASE_URL}/sprint/$id')); // TODO - Precisa do respose?
     if(response.statusCode >= 200 && response.statusCode < 300 ){
       // TODO - Oque retornoar?

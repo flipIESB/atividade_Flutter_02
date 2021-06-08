@@ -31,6 +31,13 @@ class SprintWidget extends StatelessWidget {
                     title: Text(sprint.nome),
                     // subtitle: SprintBodyWidget(sprint),
                     subtitle: Text(sprint.link),
+                    trailing: Icon(
+                      Icons.delete_outline,
+                      color: Colors.red,
+                    ),
+                    onTap: () {
+                      _showOne(sprint.id);
+                    },
                   );
                 },
                 separatorBuilder: (_, __) => Divider(),
@@ -51,6 +58,37 @@ class SprintWidget extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+
+  void _showOne(id) {
+    final sprint = _bloc.doGetOne(id);
+    Navigator.of(context).push( // TODO - verificar pq não ta certo o context
+        MaterialPageRoute<void>(
+            builder: (BuildContext context) {
+
+              return Scaffold(
+                appBar: AppBar(
+                  title: Text(sprint.nome),
+                ),
+                body: SafeArea(
+                  child:  ListTile(
+                    // title: _sprintTitle(sprint),
+                    title: Text(sprint.nome),
+                    // subtitle: SprintBodyWidget(sprint),
+                    subtitle: Text(sprint.link),
+                    trailing: Icon(
+                      Icons.delete_outline,
+                      color: Colors.red,
+                    ),
+                    onTap: () {
+                      _showOne(sprint.id);
+                    },
+                  ),
+                ),
+              );
+            }
+        )
     );
   }
 }
