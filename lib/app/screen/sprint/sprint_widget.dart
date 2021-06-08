@@ -38,7 +38,13 @@ class _SprintWidgetState extends State<SprintWidgetState> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sprint')
+        title: Text('Sprint'),
+        actions: <Widget> [
+          IconButton(
+            onPressed: () {}, // TODO - Direcionar para pagina de cadastro
+            icon: Icon(Icons.add),
+        ),
+        ],
       ),
       body: StreamBuilder(
         stream: _bloc.sprints,
@@ -46,31 +52,31 @@ class _SprintWidgetState extends State<SprintWidgetState> {
           if(snapshot.hasData){
             final sprints = snapshot.data!;
             return ListView.separated(
-                itemBuilder: (_, index){
-                  final sprint = sprints[index];
-                  final _client = Client();
-                  return ListTile(
-                    // title: _sprintTitle(sprint),
-                    title: Text(sprint.nome),
-                    // subtitle: SprintBodyWidget(sprint),
-                    subtitle: Text(sprint.link),
-                    trailing: IconButton(
-                      icon: Icon(Icons.delete_outline),
-                      color: Colors.red,
-                      onPressed: () async {
-                        // TODO - MElhorar Delete - passando para api, dando o loading e atualizando a lista
-                        print('clicou');
-                        print(Uri.parse('${Constants.API_BASE_URL}/sprint/${sprint.id}'));
-                        await _client.delete(Uri.parse('${Constants.API_BASE_URL}/sprint/${sprint.id}'));
-                      },
-                    ),
-                    onTap: () {
-                      _showOne(sprint.id);
+              itemBuilder: (_, index){
+                final sprint = sprints[index];
+                final _client = Client();
+                return ListTile(
+                  // title: _sprintTitle(sprint),
+                  title: Text(sprint.nome),
+                  // subtitle: SprintBodyWidget(sprint),
+                  subtitle: Text(sprint.link),
+                  trailing: IconButton(
+                    icon: Icon(Icons.delete_outline),
+                    color: Colors.red,
+                    onPressed: () async {
+                      // TODO - MElhorar Delete - passando para api, dando o loading e atualizando a lista
+                      print('clicou');
+                      print(Uri.parse('${Constants.API_BASE_URL}/sprint/${sprint.id}'));
+                      await _client.delete(Uri.parse('${Constants.API_BASE_URL}/sprint/${sprint.id}'));
                     },
-                  );
-                },
-                separatorBuilder: (_, __) => Divider(),
-                itemCount: sprints.length,
+                  ),
+                  onTap: () {
+                    _showOne(sprint.id);
+                  },
+                );
+              },
+              separatorBuilder: (_, __) => Divider(),
+              itemCount: sprints.length,
             );
           }
           return StreamBuilder(
