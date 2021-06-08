@@ -30,7 +30,8 @@ class SprintWidgetState extends StatefulWidget {
 class _SprintWidgetState extends State<SprintWidgetState> {
 
   late final SprintBloc _bloc = SprintModule.to.getBloc<SprintBloc>();
-  final _textFieldController = TextEditingController();
+  final _textFieldNomeController = TextEditingController();
+  final _textFieldURLController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -159,14 +160,19 @@ class _SprintWidgetState extends State<SprintWidgetState> {
                               labelText: 'Digite o nome da sprint',
                             ),
                             keyboardType: TextInputType.text,
-                            controller: _textFieldController,
+                            controller: _textFieldNomeController,
                           ),
                           TextFormField(
                             decoration: InputDecoration(
                               labelText: 'Digite a url',
                             ),
                             keyboardType: TextInputType.text,
-                            controller: _textFieldController,
+                            controller: _textFieldURLController,
+                          ),
+                          ElevatedButton(
+                            style:  ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20)),
+                            onPressed: () {},
+                            child: const Text('Salvar'),
                           ),
                         ]
                     )
