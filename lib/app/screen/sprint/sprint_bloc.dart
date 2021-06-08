@@ -23,6 +23,15 @@ class SprintBloc extends BlocBase {
     _loading.sink.add(false);
   }
 
+  doGetOne() async {
+    _loading.sink.add(true);
+
+    final sprint = await _api.getOne();
+
+
+    _loading.sink.add(false);
+  }
+
   @override
   void dispose() {
     _getAllSprints.close();
