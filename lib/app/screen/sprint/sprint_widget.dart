@@ -30,6 +30,7 @@ class SprintWidgetState extends StatefulWidget {
 class _SprintWidgetState extends State<SprintWidgetState> {
 
   late final SprintBloc _bloc = SprintModule.to.getBloc<SprintBloc>();
+  final _textFieldController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +42,9 @@ class _SprintWidgetState extends State<SprintWidgetState> {
         title: Text('Sprint'),
         actions: <Widget> [
           IconButton(
-            onPressed: () {}, // TODO - Direcionar para pagina de cadastro
+            onPressed: () {
+              _redirecToAdd();
+            }, // TODO - Direcionar para pagina de cadastro
             icon: Icon(Icons.add),
         ),
         ],
@@ -135,6 +138,42 @@ class _SprintWidgetState extends State<SprintWidgetState> {
                 ),
               );
             }
+        )
+    );
+  }
+
+  void _redirecToAdd(){
+    Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (BuildContext context) {
+            return Scaffold(
+                appBar: AppBar(
+                  title: Text('Cadastre uma Sprint'),
+                ),
+              body: SafeArea(
+                child: Container(
+                    child: Column(
+                        children: [
+                          TextFormField(
+                            decoration: InputDecoration(
+                              labelText: 'Digite o nome da sprint',
+                            ),
+                            keyboardType: TextInputType.text,
+                            controller: _textFieldController,
+                          ),
+                          TextFormField(
+                            decoration: InputDecoration(
+                              labelText: 'Digite a url',
+                            ),
+                            keyboardType: TextInputType.text,
+                            controller: _textFieldController,
+                          ),
+                        ]
+                    )
+                ),
+            ),
+            );
+          }
         )
     );
   }
