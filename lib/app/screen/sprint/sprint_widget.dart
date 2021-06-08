@@ -6,6 +6,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class SprintWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: "Flip's apps",
+      theme: ThemeData(
+        primaryColor: Colors.deepPurple,
+      ),
+      home: SprintWidgetState(),
+    );
+  }
+}
+
+class SprintWidgetState extends StatefulWidget {
+  const SprintWidgetState({Key? key}) : super(key: key);
+
+  @override
+  _SprintWidgetState createState() => _SprintWidgetState();
+}
+
+class _SprintWidgetState extends State<SprintWidgetState> {
 
   late final SprintBloc _bloc = SprintModule.to.getBloc<SprintBloc>();
 
@@ -62,29 +82,45 @@ class SprintWidget extends StatelessWidget {
   }
 
   void _showOne(id) {
-    final sprint = _bloc.doGetOne(id);
+
+    _bloc.doGetOne(id);
+
     Navigator.of(context).push( // TODO - verificar pq não ta certo o context
         MaterialPageRoute<void>(
             builder: (BuildContext context) {
-
               return Scaffold(
                 appBar: AppBar(
-                  title: Text(sprint.nome),
+                  title: Text('Sprint'),
                 ),
-                body: SafeArea(
-                  child:  ListTile(
-                    // title: _sprintTitle(sprint),
-                    title: Text(sprint.nome),
-                    // subtitle: SprintBodyWidget(sprint),
-                    subtitle: Text(sprint.link),
-                    trailing: Icon(
-                      Icons.delete_outline,
-                      color: Colors.red,
-                    ),
-                    onTap: () {
-                      _showOne(sprint.id);
-                    },
-                  ),
+                body: StreamBuilder(
+                  stream: _bloc.sprint,
+                  builder: (context, AsyncSnapshot<SprintGetModel> snapshot) {
+                    if(snapshot.hasData){
+                      final sprint = snapshot.data!;
+                      return  ListTile(
+                        // title: _sprintTitle(sprint),
+                        title: Text(sprint.nome),
+                        // subtitle: SprintBodyWidget(sprint),
+                        subtitle: Text(sprint.link),
+                        trailing: Icon(
+                          Icons.delete_outline,
+                          color: Colors.red,
+                        ),
+                      );
+                    }
+                    return StreamBuilder(
+                      stream: _bloc.loading,
+                      builder: (_, AsyncSnapshot<bool> snapshot){
+                        final loading = snapshot.data ?? false;
+                        if(loading){
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        return Container();
+                      },
+                    );
+                  },
                 ),
               );
             }

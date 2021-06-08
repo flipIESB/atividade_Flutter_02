@@ -12,8 +12,9 @@ class SprintBloc extends BlocBase {
   late final _getAllSprints = PublishSubject<List<SprintGetModel>>();
   late final _getOneSprint = PublishSubject<SprintGetModel>();
 
-  Stream<List<SprintGetModel>> get sprints => _getAllSprints.stream;
   Stream<bool> get loading => _loading.stream;
+  Stream<List<SprintGetModel>> get sprints => _getAllSprints.stream;
+  Stream<SprintGetModel> get sprint => _getOneSprint.stream;
 
   doGetAll() async {
     _loading.sink.add(true);

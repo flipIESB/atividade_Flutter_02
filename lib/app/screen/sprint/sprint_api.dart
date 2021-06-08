@@ -22,11 +22,19 @@ class SprintApi {
   
   Future<SprintGetModel> getOne(id) async {
     final response = await _client.get(Uri.parse('${Constants.API_BASE_URL}/sprint/$id'));
+    print(response);
     if(response.statusCode >= 200 && response.statusCode < 300 ){
-      final  JSprintGetOne = json.decode(response.body);
+      return SprintGetModel.fromJson(json.decode(response.body));
+      /*final JSprintGetOne = json.decode(response.body);
+      print('============================');
+      print(JSprintGetOne);
+      print('============================');
       final sprint = SprintGetModel.fromJson(JSprintGetOne);
+      print('============================');
+      print(sprint);
+      print('============================');
 
-      return sprint;
+      return JSprintGetOne;*/
     }else {
       throw Exception('Deu ruim ao recpuerar o sprint');
     }
