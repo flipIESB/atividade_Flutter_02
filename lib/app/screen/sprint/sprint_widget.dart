@@ -4,6 +4,8 @@ import 'package:bloc_patern_crud/app/shared/models/get.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart';
+import 'package:bloc_patern_crud/app/shared/models/utils/constants.dart';
 
 class SprintWidget extends StatelessWidget {
   @override
@@ -46,14 +48,21 @@ class _SprintWidgetState extends State<SprintWidgetState> {
             return ListView.separated(
                 itemBuilder: (_, index){
                   final sprint = sprints[index];
+                  final _client = Client();
                   return ListTile(
                     // title: _sprintTitle(sprint),
                     title: Text(sprint.nome),
                     // subtitle: SprintBodyWidget(sprint),
                     subtitle: Text(sprint.link),
-                    trailing: Icon(
-                      Icons.delete_outline,
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete_outline),
                       color: Colors.red,
+                      onPressed: () async {
+                        // TODO - MElhorar Delete - passando para api, dando o loading e atualizando a lista
+                        print('clicou');
+                        print(Uri.parse('${Constants.API_BASE_URL}/sprint/${sprint.id}'));
+                        await _client.delete(Uri.parse('${Constants.API_BASE_URL}/sprint/${sprint.id}'));
+                      },
                     ),
                     onTap: () {
                       _showOne(sprint.id);
@@ -102,10 +111,6 @@ class _SprintWidgetState extends State<SprintWidgetState> {
                         title: Text(sprint.nome),
                         // subtitle: SprintBodyWidget(sprint),
                         subtitle: Text(sprint.link),
-                        trailing: Icon(
-                          Icons.delete_outline,
-                          color: Colors.red,
-                        ),
                       );
                     }
                     return StreamBuilder(

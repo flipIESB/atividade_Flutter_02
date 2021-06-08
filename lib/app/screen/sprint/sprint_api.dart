@@ -25,22 +25,12 @@ class SprintApi {
     print(response);
     if(response.statusCode >= 200 && response.statusCode < 300 ){
       return SprintGetModel.fromJson(json.decode(response.body));
-      /*final JSprintGetOne = json.decode(response.body);
-      print('============================');
-      print(JSprintGetOne);
-      print('============================');
-      final sprint = SprintGetModel.fromJson(JSprintGetOne);
-      print('============================');
-      print(sprint);
-      print('============================');
-
-      return JSprintGetOne;*/
     }else {
       throw Exception('Deu ruim ao recpuerar o sprint');
     }
   }
 
-/*  Future<SprintGetModel> deleteOne(id) async {
+  void deleteOne(id) async {
     final response = await _client.delete(Uri.parse('${Constants.API_BASE_URL}/sprint/$id')); // TODO - Precisa do respose?
     if(response.statusCode >= 200 && response.statusCode < 300 ){
       // TODO - Oque retornoar?
@@ -48,6 +38,6 @@ class SprintApi {
     }else {
       throw Exception('Deu ruim ao recpuerar o sprint');
     }
-  }*/
+  }
 
 }
